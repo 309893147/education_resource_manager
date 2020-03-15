@@ -1,69 +1,65 @@
-import axios from 'axios'
-import { Message, MessageBox } from 'element-ui'
-import store from '../store'
-import { getToken, removeToken } from '@/utils/auth'
+import axios from 'axios';
+import router  from '../router/index'
 
-// 创建axios实例
 const service = axios.create({
-  baseURL: process.env.BASE_API, // api 的 base_url
-  timeout: 0 // 请求超时时间
-})
+    // process.env.NODE_ENV === 'development' 来判断是否开发环境
+    // easy-mock服务挂了，暂时不使用了
+    // baseURL: 'https://www.easy-mock.com/mock/592501a391470c0ac1fab128',
+    baseURL:"/manage/",
+    timeout: 0
+});
+import {Message} from 'element-ui'
 
-// request拦截器
 service.interceptors.request.use(
-  config => {
-    config.headers['token'] = getToken()
-    return config
-  },
-  error => {
-    // Do something with request error
-    console.log(error) // for debug
-    Promise.reject(error)
-  }
-)
+    config => {
+        try{
+            config.headers['accessToken'] = JSON.parse(localStorage.getItem("user")).token
+        }catch(e){}
+        config.headers['platform'] = "MANAGER";
+        return config;
+    },
+    error => {
+        // console.log(error);
+        return Promise.reject();
+    }
+);
 
-// response 拦截器
 service.interceptors.response.use(
-  response => {
-    const res = {
-      data: response.data.body,
-      code: response.data.status,
-      msg :response.data.message
+    response => {
+        if (response.status === 200) {
+            // console.log(response)
+            if(response.data.code == 200 || response.data.code == 204){
+                return response.data.data
+            }else if(response.data.code ==  10000){
+                Message.error({
+                    message: "登录已失效",
+                    type:"error"
+                })
+                localStorage.removeItem("user")
+                router.push({path:"/login"})
+            }else if(response.data.code ==  403){
+                router.push({path: "/403"})
+            }else {
+                Message.error({
+                    message: response.data.msg,
+                    type:"error"
+                })
+             
+                return Promise.reject(response.data)
+            }
+        } else {
+         
+            return Promise.reject(response);
+        }
+    },
+    error => {
+        console.log(error);
+        Message.error({
+            message: error,
+            type:"error"
+        })
+        return Promise.reject(error);
     }
-    if (res.code !== 200 && res.code !== 204) {
+);
 
-      // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
-      if (res.code === 401) {
-        removeToken()
-        Message({
-          message: "登录已经失效",
-          type: 'error',
-          duration: 5 * 1000
-        })
-        store.dispatch('FedLogOut').then(() => {
-          location.reload() // 为了重新实例化vue-router对象 避免bug
-        })
-      } else {
-        Message({
-          message: res.msg,
-          type: 'error',
-          duration: 5 * 1000
-        })
-      }
-      return Promise.reject('error')
-    } else {
-      return res.data
-    }
-  },
-  error => {
-    console.log('err' + error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
-    return Promise.reject(error)
-  }
-)
-
-export default service
+export default service;
