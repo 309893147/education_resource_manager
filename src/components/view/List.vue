@@ -104,6 +104,7 @@
                                 :key="item.key"
                                 sortable
                                 v-else
+                                 :show-overflow-tooltip='true'
                             >
                                 <template slot-scope="scope">
                                     <div :style="'color:'+scope.row.color">{{ scope.row[item.key]  }}</div>

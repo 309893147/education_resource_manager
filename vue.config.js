@@ -5,7 +5,7 @@ module.exports = {
     productionSourceMap: false,
     devServer: {
         disableHostCheck:true,
-        port: 8001,
+        port: 8002,
         open:true,
         headers: {
             "Access-Control-Allow-Origin": "*",
@@ -15,22 +15,7 @@ module.exports = {
         proxy: {
             '/manage/*':{
                 // target:'http://192.168.10.164:8011/',
-                // target:'http://192.168.10.111:8126/',
-                target:'http://192.168.1.5:8088/',
-                // 192.168.10.111:8126
-                // 192.168.10.171:8011
-                secure: false,
-                changeOrigin:true
-            },
-            '/common/*':{
-                target:'http://192.168.10.171:8011/',
-                // target:'http://192.168.10.164:8011/',
-                secure: false,
-                changeOrigin:true
-            },
-            '/api/*':{
-                // target:'http://192.168.10.164:8011/',
-                target:'http://192.168.10.171:8011/',
+                target:'http://localhost:8088/',
                 secure: false,
                 changeOrigin:true
             }

@@ -71,10 +71,8 @@ export default {
         }
     },
     methods:{
-        getPermission(){
-            this.ax.get("user/manager/permission").then(it =>{
-
-            })
+        getPermission() {
+          return  this.ax.get('manager/permission')
         },
         getAllowMenu(){
             this.permissions.forEach(it =>{
@@ -83,68 +81,138 @@ export default {
         }
     },
     created() {
+        
+        this.getPermission()
+        .then(res=>{
+        //  let user =  res
+        // this.getSideBarCount();
         // 通过 Event Bus 进行组件间通信，来折叠侧边栏
-        let user = JSON.parse(localStorage.getItem("user"))
-        this.permissions = user.permissions
-        let allowedMenu = this.permissions.map(it =>{
-            return it.path
-        })
-        // console.log(allowedMenu)
-        this.getAllowMenu()
+        let user = JSON.parse(localStorage.getItem('user'));
+        user.permissions =res
+        console.log(res)
+        this.permissions = user.permissions;
+        let allowedMenu = this.permissions.map(it => {
+            return it.path;
+        });
+        this.getAllowMenu();
         bus.$on('collapse', msg => {
             this.collapse = msg;
             bus.$emit('collapse-content', msg);
         });
-        let routers = this.$router.options.routes.filter(it =>{
-            // console.log(it)
-            return it.name == "home"
+        
+        let routers = this.$router.options.routes.filter(it => {
+            return it.name == 'home';
         })[0].children;
-        // console.log(routers)
-        let userType = user.info && user.info.type
-        this.items = routers.map(it =>{
-            let  item = {
+
+        let userType = user.info && user.info.type;
+        let whiteList = [];
+        this.items = routers.map(it => {
+            let item = {
                 icon: it.icon,
                 title: it.meta.title,
                 index: it.path,
-                hide: it.hide
+                hide: it.hide,
+                countKey: it.countKey
             };
-            // console.log(it.children)
-            if(it.children){
-                // if(it.children.length==1){
-                //      return   it.children=[]
-                // }else{
-                item.subs = it.children.map(child =>{
-                    // console.log(child)
-                    let path = child.path.indexOf("/") ==0?child.path :(it.path+"/"+child.path)
-                    return {index:path,title: child.meta.title,menu:it.meta.title+","+child.meta.title,hide:child.hide};
-                }).filter(sub=>{ 
-                    
-                    return allowedMenu.indexOf(sub.menu) > -1 || userType =='SUPER_MANAGER'
-                })
+
+            if (it.children) {
+                item.subs = it.children
+                    .map(child => {
+                        let path = child.path.indexOf('/') == 0 ? child.path : it.path + '/' + child.path;
+                        return {
+                            index: path,
+                            title: child.meta.title,
+                            menu: it.meta.title + ',' + child.meta.title,
+                            hide: child.hide,
+                            countKey: child.countKey
+                        };
+                    })
+                    .filter(sub => {
+                        return allowedMenu.indexOf(sub.menu) > -1 || userType == 'SUPER_MANAGER' || (sub.meta && sub.meta.whiteList);
+                    });
             }
             return item;
             // }
-        })
-        bus.$emit("allowMenu",this.items)
-
-        this.items = this.items.filter(it =>{
-            // console.log(it)
-            if(!it.subs || !it.subs.length || it.hide){
+        });
+        this.items = this.items.filter(it => {
+            if (!it.subs || !it.subs.length || it.hide) {
                 return false;
             }
-            
-            it.subs = it.subs.filter(item =>{
-                // console.log(item)
-                if(item.hide){
-                    return false
+
+            it.subs = it.subs.filter(item => {
+                if (item.hide) {
+                    return false;
                 }
-                
-                // console.log(item)
                 return true;
-            })
-            // console.log(it)
+            });
             return true;
+        });
+        console.log(this.items)
+        bus.$emit('allowMenu', this.items);
         })
+
+        // // 通过 Event Bus 进行组件间通信，来折叠侧边栏
+        // let user = JSON.parse(localStorage.getItem("user"))
+        // this.permissions = user.permissions
+        // let allowedMenu = this.permissions.map(it =>{
+        //     return it.path
+        // })
+        // // console.log(allowedMenu)
+        // this.getAllowMenu()
+        // bus.$on('collapse', msg => {
+        //     this.collapse = msg;
+        //     bus.$emit('collapse-content', msg);
+        // });
+        // let routers = this.$router.options.routes.filter(it =>{
+        //     // console.log(it)
+        //     return it.name == "home"
+        // })[0].children;
+        // // console.log(routers)
+        // let userType = user.info && user.info.type
+        // this.items = routers.map(it =>{
+        //     let  item = {
+        //         icon: it.icon,
+        //         title: it.meta.title,
+        //         index: it.path,
+        //         hide: it.hide
+        //     };
+        //     // console.log(it.children)
+        //     if(it.children){
+        //         // if(it.children.length==1){
+        //         //      return   it.children=[]
+        //         // }else{
+        //         item.subs = it.children.map(child =>{
+        //             // console.log(child)
+        //             let path = child.path.indexOf("/") ==0?child.path :(it.path+"/"+child.path)
+        //             return {index:path,title: child.meta.title,menu:it.meta.title+","+child.meta.title,hide:child.hide};
+        //         }).filter(sub=>{ 
+                    
+        //             return allowedMenu.indexOf(sub.menu) > -1 || userType =='SUPER_MANAGER'
+        //         })
+        //     }
+        //     return item;
+        //     // }
+        // })
+        // bus.$emit("allowMenu",this.items)
+
+        // this.items = this.items.filter(it =>{
+        //     // console.log(it)
+        //     if(!it.subs || !it.subs.length || it.hide){
+        //         return false;
+        //     }
+            
+        //     it.subs = it.subs.filter(item =>{
+        //         // console.log(item)
+        //         if(item.hide){
+        //             return false
+        //         }
+                
+        //         // console.log(item)
+        //         return true;
+        //     })
+        //     // console.log(it)
+        //     return true;
+        // })
         
     }
 };

@@ -9,7 +9,7 @@ export default new Router({
             path: '/',
             redirect: '/dashboard',
             icon: 'el-icon-lx-home',
-            meta: { title: '首页' }
+            meta: { title: '首页',whitelist:true }
         },
         {
             path: '/',
@@ -83,6 +83,65 @@ export default new Router({
                     ]
                 },
 
+
+                {
+                    path: "/Jurisdiction",
+                    component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),
+                    icon: "el-icon-key",
+                    meta: { title: "权限管理" },
+                    children: [
+                        {
+                            path:'managerList',
+                            component: () => import(/* webpackChunkName: "icon" */ '../components/views/Jurisdiction/managerList.vue'),
+                            meta:{ title: "管理员列表" },
+                            // hide:true
+                        },
+                        {
+                            path:'managerAdd',
+                            component: () => import(/* webpackChunkName: "icon" */ '../components/views/Jurisdiction/managerAdd.vue'),
+                            meta:{ title: "新增管理员" },
+                            hide:true
+                        },
+                        {
+                            path:'managerApplyList',
+                            component: () => import(/* webpackChunkName: "icon" */ '../components/views/Jurisdiction/managerApplyList.vue'),
+                            meta:{ title: "用户申请管理员列表" },
+                            //hide:true
+                        },
+                        {
+                            path:'list',
+                            component: () => import(/* webpackChunkName: "icon" */ '../components/views/Jurisdiction/list.vue'),
+                            meta:{ title: "后台功能权限" },
+                             hide:true
+                        }
+                    ]
+                },
+           
+
+                {
+                    path: "/ticket",
+                    component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),
+                    icon: "el-icon-chat-line-round",
+                    meta: { title: "资源求助" },
+                    children: [
+                        {
+                            path: "ticketList",
+                            icon: "el-icon-lx-home",
+                            component: () => import(/* webpackChunkName: "tabs" */ '../components/views/resources/resourceList.vue'),
+                            meta: { title: "求助列表" }
+                        },
+
+                        {
+                            path: "ticketAdd",
+                            icon: "el-icon-lx-home",
+                            component: () => import(/* webpackChunkName: "tabs" */ '../components/views/resources/resourceAdd.vue'),
+                            meta: { title: "编辑求助" },
+                            hide:true
+                        },
+
+                    ]
+                },
+
                 {
                     path: "/user",
                      component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),
@@ -95,18 +154,14 @@ export default new Router({
                             icon: "el-icon-lx-home",
                             meta: { title: "用户管理" }
                         },
-                        // {
-                        //     path: "feedback",
-                        //     icon: "el-icon-lx-home",
-                        //     component: () => import("../components/views/user/feedback.vue"),
-                        //     meta: { title: "业主反馈" }
-                        // },
                         {
                             path: "dealFeedback",
                             icon: "el-icon-lx-home",
                             component: () => import("../components/views/user/dealFeedback.vue"),
                             meta: { title: "反馈信息" }
                         },
+
+            
 
                     ]
                 },
@@ -184,12 +239,7 @@ export default new Router({
                     icon: "el-icon-help", 
                     meta: { title: "基础类型设置" }, 
                     children: [
-                        { 
-                            path: "push", 
-                            icon: "el-icon-lx-home", 
-                            component: () => import(/* webpackChunkName: "icon" */ '../components/views/base/push.vue'),
-                            meta: { title: "推送时限管理" } 
-                        }, 
+                    
                         { 
                             path: "notice", 
                             icon: "el-icon-lx-home", 
@@ -204,27 +254,7 @@ export default new Router({
                             hide:true
                         }, 
                        
-                        { 
-                            path: "working", 
-                            icon: "el-icon-lx-home", 
-                            component: () => import(/* webpackChunkName: "icon" */ '../components/views/base/working.vue'),
-                            meta: { title: "工作情况提醒" } 
-                        }, 
-                        {   
-                            path: "workAdd", 
-                            icon: "el-icon-lx-home", 
-                            component: () => import(/* webpackChunkName: "icon" */ '../components/views/base/workAdd.vue'),
-                            meta: { title: "工作情况提醒新增" },
-                            hide:true
-                        }, 
-
-                        { 
-                            path: "working/add", 
-                            icon: "el-icon-lx-home", 
-                            component: () => import(/* webpackChunkName: "icon" */ '../components/views/base/workAdd.vue'),
-                            meta: { title: "添加工作情况" } ,
-                            hide:true
-                        }, 
+        
 
                     ] 
                 }, 
@@ -249,32 +279,7 @@ export default new Router({
                 //     ] 
                 // },
        
-                // {
-                //     path: "/Jurisdiction",
-                //     component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),
-                //     icon: "el-icon-key",
-                //     meta: { title: "权限管理" },
-                //     children: [
-                //         {
-                //             path: "project",
-                //             icon: "el-icon-lx-home",
-                //             component: () => import(/* webpackChunkName: "icon" */ '../components/views/Jurisdiction/project.vue'),
-                //             meta: { title: "项目权限" }
-                //         },
-                //         {
-                //             path: "company",
-                //             icon: "el-icon-lx-home",
-                //             component: () => import(/* webpackChunkName: "icon" */ '../components/views/Jurisdiction/company.vue'),
-                //             meta: { title: "公司权限" }
-                //         },
-                //         {
-                //             path:'list',
-                //             component: () => import(/* webpackChunkName: "icon" */ '../components/views/Jurisdiction/list.vue'),
-                //             meta:{ title: "后台功能权限" },
-                //             // hide:true
-                //         }
-                //     ]
-                // },
+        
                 {
                     path: "/settings",
                     component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),
@@ -299,11 +304,11 @@ export default new Router({
             component: () => import(/* webpackChunkName: "login" */ '../components/page/Login.vue'),
             meta: { title: '登录' }
         },
-        // {
-        //     path: '*',
-        //     icon:'el-icon-lx-home',
-        //     redirect: '/404',
-        //     meta: { title: '404' }
-        // }
+        {
+            path: '*',
+            icon:'el-icon-lx-home',
+            redirect: '/404',
+            meta: { title: '404' }
+        }
     ]
 });

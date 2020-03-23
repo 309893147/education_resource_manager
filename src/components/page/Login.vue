@@ -1,7 +1,7 @@
 <template>
     <div class="login-wrap">
         <div class="ms-login">
-            <div class="ms-title">后台管理系统</div>
+            <div class="ms-title">教学资源管理系统</div>
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item prop="mobile">
                     <el-input v-model="param.mobile" placeholder="mobile">
@@ -31,7 +31,7 @@ export default {
     data: function() {
         return {
             param: {
-                mobile: 13637957548,
+                mobile: 17677138352,
                 password: 123456,
                 clientId:"manager"
             },
@@ -53,11 +53,15 @@ export default {
                 }
             });
         },
-        doLogin(){
+   doLogin(){
+             this.startLoading()
             this.ax.post("manager/login",this.param).then(it =>{
                 console.log(it)
+                   this.stopLoading()
                 localStorage.setItem("user",JSON.stringify(it))
                 this.$router.push('/dashboard');
+            }).catch(res=>{
+                this.stopLoading()
             })
         }
     },

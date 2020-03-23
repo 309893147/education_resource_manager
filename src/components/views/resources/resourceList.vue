@@ -23,9 +23,14 @@
                         <el-input v-model="ruleForm.title" placeholder="请输入名称"></el-input>
                     </el-form-item>
 
-                    <el-form-item prop="description" class="w-100">
+                    <el-form-item class="w-100" prop="content">
                         <div class="label">简介</div>
-                        <el-input v-model="ruleForm.description" placeholder="请输入名称"></el-input>
+                        <el-input
+                            v-model="ruleForm.content"
+                            :rows="5"
+                            placeholder="请输入名称"
+                            type="textarea"
+                        ></el-input>
                     </el-form-item>
 
                     <el-form-item class="w-100">
@@ -41,10 +46,10 @@
                             </el-select>
                         </template>
                     </el-form-item>
-                    <el-form-item class="w-100">
+                    <!-- <el-form-item class="w-100">
                         <div class="label">内容</div>
                         <view-editor @func="getMsgFormSon"></view-editor>
-                    </el-form-item>
+                    </el-form-item>-->
 
                     <el-form-item prop="tag" class="w-100">
                         <div class="label">标签</div>
@@ -63,7 +68,7 @@
                         </div>
                     </el-form-item>
 
-                    <el-form-item class="w-100">
+                    <!-- <el-form-item class="w-100">
                         <div class="display_flex">
                             <div class="label m-r-20">是否加入banner</div>
                             <el-switch
@@ -73,7 +78,7 @@
                                 inactive-color="#ccc"
                             ></el-switch>
                         </div>
-                    </el-form-item>
+                    </el-form-item>-->
 
                     <el-form-item class="w-100">
                         <div class="display_flex">
@@ -192,9 +197,12 @@ export default {
 
         dataList(val) {
             val.content.map(it => {
-                it.resourceStatus = it.resourceStatus == 'UNPROCESSED' ? '待处理' : it.resourceStatus == 'PASS' ? '已通过' : '未通过' ;
-                it.recommend = it.recommend == true ? '是' : '否' ;
+                it.recommend = it.recommend == true ? '是' : '否';
+                it.resourceStatus = it.resourceStatus == 'NOPASS' ? '未通过' : it.resourceStatus == 'PASS' ? '已通过' : '未通过';
+                if(it.basicType){
                 it.basicType = it.basicType.name;
+
+                }
             });
         },
         // 获取content
@@ -236,8 +244,8 @@ export default {
         },
         update() {
             this.createDialog = true;
-            this.ruleForm.basicType=null
-            this.ax.put(`resource`, this.ruleForm).then(it => {
+            this.ruleForm.basicType = null;
+            this.ax.post(`resource/review`, this.ruleForm).then(it => {
                 this.$message.success('保存成功');
                 this.createDialog = false;
                 this.$refs.list.onUpdate([it]);
