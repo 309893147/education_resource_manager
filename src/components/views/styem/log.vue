@@ -3,20 +3,17 @@
     <div>
         <div class="container">
             <List
-                :dataUrl="'log/operation'"
+                :dataUrl="'/log/login'"
                 ref="list"
-                :filters="filters"
-                :metaUrl="'log/meta'"
-                @meta="onMeta"
-                :disableTableAction="true"
             >
-                <template slot="filter-prefix" class="display_flex">
+                <!-- <template slot="filter-prefix" class="display_flex">
                     <ticketSearch
+                        class="m-r-20"
                         :metaUrl="'log/meta'"
                         @communityId="onCommunityChange"
                         @filters="onFiltersChnage"
                     ></ticketSearch>
-                </template>
+                </template> -->
             </List>
         </div>
     </div>
@@ -24,12 +21,11 @@
 
 <script>
 import List from '../../view/List';
-import ticketSearch from '../public/ticketSearchView';
-import metaUtil from '../../../utils/meta';
+import viewEditor from '../../page/VueEditor';
 export default {
     components: {
         List,
-        ticketSearch
+        viewEditor
     },
 
     data() {
@@ -43,22 +39,28 @@ export default {
     methods: {
         onFiltersChnage(e) {
             this.filters = e.filter(it => {
-                if (it.key === 'content') {
-                    it.name = '备注';
-                }
-                return it.key !== 'type';
+                return it.key !== 'userName' && it.key !=='operation' && it.key !=='type' && it.key !=='ip'
             });
         },
         onCommunityChange(e) {
             this.$refs.list.setFilterValue('communityId', e);
         },
         onMeta(meta) {
-            metaUtil.updateMeta(meta, 'content', item => {
-                item.name = '备注';
-                return item;
-            });
             metaUtil.updateMeta(meta, 'type', item => {
                 item.searchable = false;
+                return item;
+            });
+            metaUtil.updateMeta(meta, 'userName', item => {
+                item.searchable = false;
+                item.displayInList = false;
+                return item;
+            });
+            metaUtil.updateMeta(meta, 'operation', item => {
+                item.displayInList = false;
+                return item;
+            });
+            metaUtil.updateMeta(meta, 'ip', item => {
+                item.displayInList = false;
                 return item;
             });
         }

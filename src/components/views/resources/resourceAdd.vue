@@ -51,10 +51,9 @@
                             drag
                             :limit="1"
                             ref="uploader"
-                            name="File"
+                            name="file"
                             :on-success="uploadSuccess"
-                            accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                            action="/manage/upload/"
+                            action="/manage/upload"
                         >
                             <i class="el-icon-upload"></i>
                             <div class="el-upload__text">
@@ -77,18 +76,6 @@
                             ></el-switch>
                         </div>
                     </el-form-item>
-
-                    <!-- <el-form-item class="w-100">
-                        <div class="display_flex">
-                            <div class="label m-r-20">是否加入banner</div>
-                            <el-switch
-                                class="m-b-15"
-                                v-model="ruleForm.joinBanner"
-                                active-color="#267FF9"
-                                inactive-color="#ccc"
-                            ></el-switch>
-                        </div>
-                    </el-form-item>-->
 
                     <el-form-item class="w-100">
                         <div class="display_flex">
@@ -133,6 +120,7 @@ export default {
                 basicTypeId: '',
                 recommend: null,
                 status: null,
+                link:''
             },
             value: '',
             //  规则
@@ -150,11 +138,11 @@ export default {
     methods: {
         uploadSuccess(response) {
             if (response.code == 200) {
-                this.exceptionList = response.data;
+                this.ruleForm.link = response.data;
             } else {
                 this.$message.error(response.msg);
             }
-            this.$refs.uploader.clearFiles();
+            // this.$refs.uploader.clearFiles();
         },
         getType() {
             let vm = this;
@@ -168,10 +156,7 @@ export default {
                     console.log(err); // 这里catch到错误timeout
                 });
         },
-        // 获取content
-        getMsgFormSon(data) {
-            this.ruleForm.content = data;
-        },
+  
         // 新增保存
         save(formName) {
             this.$refs[formName].validate(valid => {

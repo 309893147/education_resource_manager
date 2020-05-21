@@ -220,7 +220,7 @@ export default {
             this.startLoading();
             this.ax
                 .delete(
-                    `aboutus?ids=` +
+                    `resource?ids=` +
                         val
                             .map(it => {
                                 return it.id;

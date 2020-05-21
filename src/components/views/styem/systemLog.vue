@@ -24,14 +24,12 @@
 
 <script>
 import List from '../../view/List';
-import ticketSearch from '../public/ticketSearchView';
-import metaUtil from '../../../utils/meta';
+import viewEditor from '../../page/VueEditor';
 export default {
     components: {
         List,
-        ticketSearch
+        viewEditor
     },
-
     data() {
         return {
             filters: [{}]

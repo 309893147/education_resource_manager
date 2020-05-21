@@ -2,93 +2,104 @@
     <div class="index">
          <div class="container m-b-15">
                 <div class="top_title display_flex m-b-35">
-                    <div class="title_info">面板</div>
+                    <div class="title_info" >面板</div>
+                    
                 </div>
                 <div class="padding_20">
                     <div class="display_flex between  m-b-50">
+                        <template v-if="user && user.info && user.info.type =='SUPER_MANAGER'">
                         <div class="w-20">
-                            <div class="index_info_number">200000</div>
+                            <div class="index_info_number">{{info.indexCount.userTotalCount}}</div>
                             <div class="index_info">总用户</div>
                         </div>
                         <div class="w-20">
-                            <div class="index_info_number">200000</div>
+                            <div class="index_info_number">{{info.indexCount.newUserCount}}</div>
                             <div class="index_info">今日新增用户</div>
                         </div>
+                        </template>
                         <div class="w-20">
-                            <div class="index_info_number">200000</div>
-                            <div class="index_info">未处理报事</div>
+                            <div class="index_info_number">{{info.indexCount.unResourceCount}}</div>
+                            <div class="index_info">未处理资源</div>
                         </div>  
                         <div class="w-20">
-                            <div class="index_info_number">200000</div>
-                            <div class="index_info">今日新增报事</div>
+                            <div class="index_info_number">{{info.indexCount.todayNewCount}}</div>
+                            <div class="index_info">今日新增资源</div>
                         </div>
                         <div class="w-20">
-                            <div class="index_info_number">200000</div>
-                            <div class="index_info">今日接单量</div>
+                            <div class="index_info_number">{{info.indexCount.todayResourceCount}}</div>
+                            <div class="index_info">今日上传量</div>
                         </div>
                     </div>
-                    <div class="ranking m-b-30">今日接单劳模榜</div>
-                    <div class="display_flex m-b-25">
+                    <div class="ranking m-b-30">今日资源整理榜</div>
+                    <div class="display_flex m-b-25" v-if="info.ticketTopPersons && info.ticketTopPersons.length">
                         <div class="w-20 display_flex start">
                             <img class="medal m-r-15" src="../../../assets/img/glod.png" alt="">
                             <div >
                                <div class="display_flex start m-b-5">
-                                   <div class="managerOfName m-r-20">文静</div>
-                                   <div class="countsOfOrder">5568</div>
+                                   <div class="managerOfName m-r-20">{{info.ticketTopPersons[0].name}}</div>
+                                   <div class="countsOfOrder">{{info.ticketTopPersons[0].ticketNumber}}</div>
                                </div>
-                               <div class="positionOfManager">太阳公元A区项目管理中心总经理</div>
+                               <div class="positionOfManager">{{info.ticketTopPersons[0].companyName}}{{info.ticketTopPersons[0].position}}</div>
                             </div>
                         </div>
-                        <div class="w-20 display_flex start">
+                        <div class="w-20 display_flex start" v-if="info.ticketTopPersons.length > 1">
                             <img class="medal m-r-15" src="../../../assets/img/silver.png" alt="">
                             <div >
                                <div class="display_flex start m-b-5">
-                                   <div class="managerOfName m-r-20">文静</div>
-                                   <div class="countsOfOrder">5568</div>
+                                   <div class="managerOfName m-r-20">{{info.ticketTopPersons[1].name}}</div>
+                                   <div class="countsOfOrder">{{info.ticketTopPersons[1].ticketNumber}}</div>
                                </div>
-                               <div class="positionOfManager">太阳公元A区项目管理中心总经理</div>
+                               <div class="positionOfManager">{{info.ticketTopPersons[1].companyName}}{{info.ticketTopPersons[1].position}}</div>
                             </div>
                         </div>
-                        <div class="w-20 display_flex start">
+                        <div class="w-20 display_flex start" v-if="info.ticketTopPersons.length >2">
                             <img class="medal m-r-15" src="../../../assets/img/copper.png" alt="">
                             <div >
                                <div class="display_flex start m-b-5">
-                                   <div class="managerOfName m-r-20">文静</div>
-                                   <div class="countsOfOrder">5568</div>
+                                   <div class="managerOfName m-r-20">{{info.ticketTopPersons[2].name}}</div>
+                                   <div class="countsOfOrder">{{info.ticketTopPersons[2].ticketNumber}}</div>
                                </div>
-                               <div class="positionOfManager">太阳公元A区项目管理中心总经理</div>
+                               <div class="positionOfManager">{{info.ticketTopPersons[2].companyName}}{{info.ticketTopPersons[2].position}}</div>
                             </div>
                         </div>
                     </div>
-                    <div class="m-b-15">快捷入口</div>
-                    <div class="display_flex between m-b-35 ">
-                        <div class="btn_fast cursor">
-                            业主报事
+                      <div class="display_flex m-b-25" v-else >
+                        <div class="w-20 display_flex start">
+                            <img class="medal m-r-15" src="../../../assets/img/glod.png" alt="">
+                            <div >
+                               <div class="display_flex start m-b-5">
+                                   <div class="managerOfName m-r-20">暂无</div>
+                                   <div class="countsOfOrder">暂无</div>
+                               </div>
+                               <div class="positionOfManager">暂无</div>
+                            </div>
                         </div>
-                        <div class="btn_fast cursor">
-                            巡园报事
+                        <div class="w-20 display_flex start" >
+                            <img class="medal m-r-15" src="../../../assets/img/silver.png" alt="">
+                            <div >
+                               <div class="display_flex start m-b-5">
+                                   <div class="managerOfName m-r-20">暂无</div>
+                                   <div class="countsOfOrder">暂无</div>
+                               </div>
+                               <div class="positionOfManager">暂无</div>
+                            </div>
                         </div>
-                        <div class="btn_fast cursor">
-                            投诉管理
+                        <div class="w-20 display_flex start" >
+                            <img class="medal m-r-15" src="../../../assets/img/copper.png" alt="">
+                            <div >
+                               <div class="display_flex start m-b-5">
+                                   <div class="managerOfName m-r-20">暂无</div>
+                                   <div class="countsOfOrder">暂无</div>
+                               </div>
+                               <div class="positionOfManager">暂无</div>
+                            </div>
                         </div>
-                        <div class="btn_fast cursor">
-                            用户注册认证
-                        </div>
-                        <div class="btn_fast cursor">
-                            指令任务
-                        </div>
-                        <div class="btn_fast cursor">
-                            用户管理
-                        </div>
-                        <div class="btn_fast cursor">
-                            便捷服务
-                        </div>
-
                     </div>
+                    
                 </div>
 
          </div>
-          <div class="container">
+          <div class="container" v-if="user && user.info && user.info.type =='SUPER_MANAGER'">
                 <div class="top_title display_flex m-b-35">
                     <div class="title_info">服务器信息</div>
                 </div>
@@ -96,77 +107,19 @@
                     <div class="display_flex m-b-45">
                         <div class="w-25 display_flex">
                             <div class="m-r-12 IPTitle">本次登录IP</div>
-                            <div class="IPInfo">192.168.10.117</div>
+                            <div class="IPInfo">{{IpInfo.bc}}</div>
                         </div>
                         <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">本次登录IP</div>
-                            <div class="IPInfo">192.168.10.117</div>
+                            <div class="m-r-12 IPTitle">上次登录IP</div>
+                            <div class="IPInfo">{{IpInfo.sc}}</div>
                         </div>
                         <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">本次登录IP</div>
-                            <div class="IPInfo">192.168.10.117</div>
+                            <div class="m-r-12 IPTitle">上次登录时间</div>
+                            <div class="IPInfo" v-if="IpInfo.scTime">{{getTime(IpInfo.scTime)}}</div>
                         </div>
                     </div>
 
-                    <div class="indexInfo m-b-35">站点信息</div>
-                    <div>
-                        <div class="display_flex m-b-25">
-                        <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">站点名称</div>
-                            <div class="IPInfo">IFS.Distribution内容管理系统</div>
-                        </div>
-                        <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">公司名称</div>
-                            <div class="IPInfo">教学资源管理系统</div>
-                        </div>
-                        <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">网站域名</div>
-                            <div class="IPInfo">http://demo.IFS.Distribution.net</div>
-                        </div>
-                    </div>
-                    <div class="display_flex m-b-25">
-                        <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">安装目录</div>
-                            <div class="IPInfo">/</div>
-                        </div>
-                        <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">网站管理目录</div>
-                            <div class="IPInfo">192.168.10.117</div>
-                        </div>
-                        <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">附件上传目录</div>
-                            <div class="IPInfo">192.168.10.117</div>
-                        </div>
-                    </div>
-                    <div class="display_flex m-b-25">
-                        <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">服务器名称</div>
-                            <div class="IPInfo">192.168.10.117</div>
-                        </div>
-                        <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">服务器IP</div>
-                            <div class="IPInfo">192.168.10.117</div>
-                        </div>
-                        <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">NET框架版本</div>
-                            <div class="IPInfo">192.168.10.117</div>
-                        </div>
-                    </div>
-                    <div class="display_flex m-b-25">
-                        <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">目录物理路径</div>
-                            <div class="IPInfo">192.168.10.117</div>
-                        </div>
-                        <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">系统版本</div>
-                            <div class="IPInfo">192.168.10.117</div>
-                        </div>
-                        <div class="w-25 display_flex">
-                            <div class="m-r-12 IPTitle">NET框架版本</div>
-                            <div class="IPInfo">192.168.10.117</div>
-                        </div>
-                    </div>
-                    </div>
+                 
                 </div>           
           </div>
     </div>
@@ -174,17 +127,45 @@
 
 <script>
 export default {
-    name: 'block',
     data() {
         return {
+           info:{
+               indexCount:{},
+               ticketTopPersons:[]
+            },
            
+           IpInfo:{},
+           user: {}
         };
     },
     created() {
-       
+       this.getInfo()
+        this.getIP()
+        this.user = JSON.parse(localStorage.getItem("user"))
+  
     },
     methods: {
-     
+        getInfo(){
+            this.ax.get('common/index/count')
+                .then(res=>{
+                    // console.log(res)
+                    this.info= res
+                })
+        },
+        getIP(){
+            this.ax.get('common/index/service')
+                .then(res=>{
+                    console.log(res)
+                    this.IpInfo = res
+                })
+        },
+        getServe(){
+            this.ax.get('common/index/net')
+            .then(res=>{
+                    this.serveInfo = res
+                    console.log(this.serveInfo)
+                })
+        },
     }
 };
 </script>

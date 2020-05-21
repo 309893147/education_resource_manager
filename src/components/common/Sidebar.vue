@@ -122,13 +122,13 @@ export default {
                         return {
                             index: path,
                             title: child.meta.title,
-                            menu: it.meta.title + ',' + child.meta.title,
+                            menu: it.meta.title + ',' + (child.meta.menu || child.meta.title),
                             hide: child.hide,
                             countKey: child.countKey
                         };
                     })
                     .filter(sub => {
-                        return allowedMenu.indexOf(sub.menu) > -1 || userType == 'SUPER_MANAGER' || (sub.meta && sub.meta.whiteList);
+                        return  allowedMenu.indexOf(sub.menu) > -1 || userType == 'SUPER_MANAGER' || (sub.meta && sub.meta.whiteList);
                     });
             }
             return item;

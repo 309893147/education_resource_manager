@@ -62,7 +62,7 @@ export default new Router({
                             path: "resourceAdd",
                             icon: "el-icon-lx-home",
                             component: () => import(/* webpackChunkName: "tabs" */ '../components/views/resources/resourceAdd.vue'),
-                            meta: { title: "教育资源新增" },
+                            meta: { title: "保存" },
                             hide:true
                         },
 
@@ -76,7 +76,7 @@ export default new Router({
                             path: "resourceTypeAdd", 
                             icon: "el-icon-lx-home", 
                             component: () => import(/* webpackChunkName: "icon" */ '../components/views/base/typeAdd.vue'),
-                            meta: { title: "教育资源类型新增" },
+                            meta: { title: "保存" },
                             hide:true
                         }, 
 
@@ -99,7 +99,7 @@ export default new Router({
                         {
                             path:'managerAdd',
                             component: () => import(/* webpackChunkName: "icon" */ '../components/views/Jurisdiction/managerAdd.vue'),
-                            meta:{ title: "新增管理员" },
+                            meta:{ title: "保存" },
                             hide:true
                         },
                         {
@@ -118,29 +118,29 @@ export default new Router({
                 },
            
 
-                {
-                    path: "/ticket",
-                    component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),
-                    icon: "el-icon-chat-line-round",
-                    meta: { title: "资源求助" },
-                    children: [
-                        {
-                            path: "ticketList",
-                            icon: "el-icon-lx-home",
-                            component: () => import(/* webpackChunkName: "tabs" */ '../components/views/resources/resourceList.vue'),
-                            meta: { title: "求助列表" }
-                        },
+                // {
+                //     path: "/ticket",
+                //     component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),
+                //     icon: "el-icon-chat-line-round",
+                //     meta: { title: "资源求助" },
+                //     children: [
+                //         {
+                //             path: "ticketList",
+                //             icon: "el-icon-lx-home",
+                //             component: () => import(/* webpackChunkName: "tabs" */ '../components/views/resources/resourceList.vue'),
+                //             meta: { title: "求助列表" }
+                //         },
 
-                        {
-                            path: "ticketAdd",
-                            icon: "el-icon-lx-home",
-                            component: () => import(/* webpackChunkName: "tabs" */ '../components/views/resources/resourceAdd.vue'),
-                            meta: { title: "编辑求助" },
-                            hide:true
-                        },
+                //         {
+                //             path: "ticketAdd",
+                //             icon: "el-icon-lx-home",
+                //             component: () => import(/* webpackChunkName: "tabs" */ '../components/views/resources/resourceAdd.vue'),
+                //             meta: { title: "编辑求助" },
+                //             hide:true
+                //         },
 
-                    ]
-                },
+                //     ]
+                // },
 
                 {
                     path: "/user",
@@ -154,12 +154,12 @@ export default new Router({
                             icon: "el-icon-lx-home",
                             meta: { title: "用户管理" }
                         },
-                        {
-                            path: "dealFeedback",
-                            icon: "el-icon-lx-home",
-                            component: () => import("../components/views/user/dealFeedback.vue"),
-                            meta: { title: "反馈信息" }
-                        },
+                        // {
+                        //     path: "dealFeedback",
+                        //     icon: "el-icon-lx-home",
+                        //     component: () => import("../components/views/user/dealFeedback.vue"),
+                        //     meta: { title: "反馈信息" }
+                        // },
 
             
 
@@ -210,76 +210,89 @@ export default new Router({
                         }
                     ]
                 },
-                {
-                    path: "/question",
-                    component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),
-                    icon: "el-icon-discover",
-                    meta: { title: "常见问题" },
-                    children:
-                        [
-                            {
-                                path: "problem",
-                                icon: "el-icon-lx-home",
-                                component: () => import(/* webpackChunkName: "icon" */ '../components/views/question/problem.vue'),
-                                meta: { title: "常见问题" }
-                            },
-                            {   
-                                path: "problemAdd", 
-                                icon: "el-icon-lx-home", 
-                                component: () => import(/* webpackChunkName: "icon" */ '../components/views/question/problemAdd.vue'),
-                                meta: { title: "常见问题新增" },
-                                hide:true
-                            }, 
-                        ]
-                },
+                // {
+                //     path: "/question",
+                //     component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),
+                //     icon: "el-icon-discover",
+                //     meta: { title: "常见问题" },
+                //     children:
+                //         [
+                //             {
+                //                 path: "problem",
+                //                 icon: "el-icon-lx-home",
+                //                 component: () => import(/* webpackChunkName: "icon" */ '../components/views/question/problem.vue'),
+                //                 meta: { title: "常见问题" }
+                //             },
+                //             {   
+                //                 path: "problemAdd", 
+                //                 icon: "el-icon-lx-home", 
+                //                 component: () => import(/* webpackChunkName: "icon" */ '../components/views/question/problemAdd.vue'),
+                //                 meta: { title: "常见问题新增" },
+                //                 hide:true
+                //             }, 
+                //         ]
+                // },
         
-                { 
-                    path: "/base", 
-                    component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),
-                    icon: "el-icon-help", 
-                    meta: { title: "基础类型设置" }, 
-                    children: [
+                // { 
+                //     path: "/base", 
+                //     component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),
+                //     icon: "el-icon-help", 
+                //     meta: { title: "基础类型设置" }, 
+                //     children: [
                     
-                        { 
-                            path: "notice", 
-                            icon: "el-icon-lx-home", 
-                            component: () => import(/* webpackChunkName: "icon" */ '../components/views/base/notice.vue'),
-                            meta: { title: "公告通知类型" } 
-                        }, 
-                        {   
-                            path: "noticeAdd", 
-                            icon: "el-icon-lx-home", 
-                            component: () => import(/* webpackChunkName: "icon" */ '../components/views/base/noticeAdd.vue'),
-                            meta: { title: "公告通知新增" },
-                            hide:true
-                        }, 
+                //         { 
+                //             path: "notice", 
+                //             icon: "el-icon-lx-home", 
+                //             component: () => import(/* webpackChunkName: "icon" */ '../components/views/base/notice.vue'),
+                //             meta: { title: "公告通知类型" } 
+                //         }, 
+                //         {   
+                //             path: "noticeAdd", 
+                //             icon: "el-icon-lx-home", 
+                //             component: () => import(/* webpackChunkName: "icon" */ '../components/views/base/noticeAdd.vue'),
+                //             meta: { title: "公告通知新增" },
+                //             hide:true
+                //         }, 
                        
         
 
-                    ] 
-                }, 
-                // { 
-                //     path: "/styem", 
-                //     component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),
-                //     icon: "el-icon-s-tools", 
-                //     meta: { title: "系统管理" }, 
-                //     children: [
-                //         { 
-                //             path: "work", 
-                //             icon: "el-icon-lx-home", 
-                //             component: () => import(/* webpackChunkName: "icon" */ '../components/views/styem/work.vue'),
-                //             meta: { title: "操作日志管理" } 
-                //         }, 
-                //         { 
-                //             path: "index", 
-                //             icon: "el-icon-lx-home", 
-                //             component: () => import(/* webpackChunkName: "icon" */ '../components/views/styem/index.vue'),
-                //             meta: { title: "系统日志管理" } 
-                //         }
                 //     ] 
-                // },
+                // }, 
+         
        
-        
+               { 
+                    path: "/styem", 
+                    component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),
+                    icon: "el-icon-s-tools", 
+                    meta: { title: "系统管理" }, 
+                    children: [
+                        // { 
+                        //     path: "work", 
+                        //     icon: "el-icon-lx-home", 
+                        //     component: () => import(/* webpackChunkName: "icon" */ '../components/views/styem/work.vue'),
+                        //     meta: { title: "操作日志管理" } 
+                        // }, 
+                        // { 
+                        //     path: "index", 
+                        //     icon: "el-icon-lx-home", 
+                        //     component: () => import(/* webpackChunkName: "icon" */ '../components/views/styem/index.vue'),
+                        //     meta: { title: "系统日志管理" } 
+                        // }
+                        {
+                            path: "work",
+                            icon: "el-icon-lx-home",
+                            component: () => import(/* webpackChunkName: "icon" */ '../components/views/styem/systemLog.vue'),
+                            meta: { title: "操作日志管理" }
+                        }, 
+                        {
+                            path: "index",
+                            icon: "el-icon-lx-home",
+                            component: () => import(/* webpackChunkName: "icon" */ '../components/views/styem/log.vue'),
+                            meta: { title: "系统日志管理" }
+                        }
+                    ] 
+                },
+
                 {
                     path: "/settings",
                     component: () => import(/* webpackChunkName: "icon" */ '../components/views/block.vue'),

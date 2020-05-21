@@ -99,6 +99,13 @@ export default {
             });
         },
 
+         // 跳转
+        jumpCreate() {
+            this.$router.push({
+                path: 'managerAdd'
+            });
+        },
+
     }
 };
 </script>
