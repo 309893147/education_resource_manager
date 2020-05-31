@@ -46,7 +46,8 @@
                     <slot name="actions">
                         <slot name="addition-actions"></slot>
                         <el-button type="primary" v-if="printable" @click="$emit('print')">打印</el-button>
-                        <el-button type="primary" v-if="exportable" @click="$emit('export')">导出</el-button>
+                        <!-- <el-button type="primary" v-if="exportable" @click="$emit('export')">导出</el-button> -->
+                         <el-button type="primary" class="m-r-10" v-if="exportable" size="123" @click="exportData" :loading="load_exp">全部导出</el-button>
                         <el-button
                             type="primary"
                             v-if="insertable"
@@ -393,7 +394,12 @@ export default {
                 }).then(() => {
                     this.doBatch(e, true);
                 });
+              
                 return;
+            }
+              if('export' === e){
+                this.exportData(this.selected.map(it=>{return it.id}).join(","),true)
+                return
             }
             this.$emit(e, this.selected);
         },
@@ -408,6 +414,46 @@ export default {
         },
         onAdd(e) {
             this.tableData.content.unshift(e);
+        },
+        exportData(ids,news){
+            this.$confirm('是否确认导出数据?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                    this.load_exp = true
+                        let newTab
+                       
+                        newTab = window.open();
+                        
+                       this.$emit('export')
+                        let payload = this.filter
+                        if(ids && typeof ids ==='string'){
+                            payload = {ids:ids}
+                        }
+                        this.ax.get(this.dataUrl+"/export",{params:payload}).then(it =>{
+                            this.load_exp = false
+                            //console.log(it)
+                            if(it.msg){
+                                this.$message.success(it.msg)
+                                // newTab=window.href="about:blank"
+                                newTab.close()
+                                return
+                            }else{
+                                console.log(it)
+                                 newTab.location = it.url
+                            }
+                        }).catch(it =>{
+                            this.load_exp = false
+                            newTab.close()
+                        })
+                }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消'
+                });          
+                });
+         
         },
         onUpdate(e) {
             this.tableData.content = this.tableData.content.map(it => {

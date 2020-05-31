@@ -5,15 +5,44 @@
             <div class="top_title display_flex m-b-35">
                 <div class="title_info">教育资源</div>
             </div>
+            <el-button
+                type="primary"
+                class="m-r-10"
+                size="123"
+                @click="dialogVisible = true"
+            >导入</el-button>
+
             <List
                 :dataUrl="'resource'"
                 @create="jumpCreate"
                 @delete="deleteRow"
                 ref="list"
                 @edit="editRow"
-                @data="dataList"
                 :actionName="`新增`"
+                @data="dataList"
             ></List>
+
+            <el-dialog title="导入教学资源" :visible.sync="dialogVisible" :close-on-click-modal="false" @close="updateItem=null">
+                <div>
+                    <template>
+                         <el-upload
+                            class="upload-demo"
+                            drag
+                            :limit="1"
+                            ref="uploader"
+                            name="excelFile"
+                            :on-success="uploadSuccess"
+                            action="/manage/resource/import"
+                        >
+                            <i class="el-icon-upload"></i>
+                            <div class="el-upload__text">
+                                将文件拖到此处，或
+                                <em>点击上传</em>
+                            </div>
+                        </el-upload>
+                    </template>
+                </div>
+            </el-dialog>
         </div>
         <el-dialog title="编辑" :visible.sync="createDialog" :close-on-click-modal="false">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm m-b-30">
@@ -134,6 +163,7 @@ export default {
             //弹框
             createDialog: false,
             reviewDialog: false,
+              dialogVisible: false,
             typeData: '',
             options: [
                 {
@@ -199,9 +229,8 @@ export default {
             val.content.map(it => {
                 it.recommend = it.recommend == true ? '是' : '否';
                 it.resourceStatus = it.resourceStatus == 'NOPASS' ? '未通过' : it.resourceStatus == 'PASS' ? '已通过' : '未通过';
-                if(it.basicType){
-                it.basicType = it.basicType.name;
-
+                if (it.basicType) {
+                    it.basicType = it.basicType.name;
                 }
             });
         },
@@ -253,7 +282,17 @@ export default {
 
                 this.createDialog = false;
             });
-        }
+        },
+         onUploadSuccess(res) {
+            if (res.code != 200) {
+                this.toast(res.msg);
+                 this.loading=false
+                return;
+            }
+            this.toast('上传成功', 'success');
+             this.loading=false
+            this.updateItem = res.data;
+        },
     }
 };
 </script>
